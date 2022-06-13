@@ -21,7 +21,7 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/read/{npm}", response_model=schemas.MahasiswaResponse)
+@app.get("/{npm}", response_model=schemas.MahasiswaResponse)
 async def get_mahasiswa(npm: str, req: Request, db: Session = Depends(get_db)):
     mahasiswa_in_db = db.query(models.Mahasiswa).filter(models.Mahasiswa.npm == npm).first()
 

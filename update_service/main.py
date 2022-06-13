@@ -21,7 +21,7 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/update", response_model=schemas.BaseResponse)
+@app.post("/", response_model=schemas.BaseResponse)
 async def create_or_update_mahasiswa(mahasiswa: schemas.Mahasiswa, req: Request, db: Session = Depends(get_db)):
     if not req.headers['Content-Type'] == 'application/json':
         return {"message": "Content-Type must be application/json"}
@@ -39,7 +39,7 @@ async def create_or_update_mahasiswa(mahasiswa: schemas.Mahasiswa, req: Request,
         )
         db.add(mahasiswa_in_db)
         db.commit() 
-        db.refresh()
+        db.refresh(mahasiswa_in_db)
 
     return {
         "status": "OK",
